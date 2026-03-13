@@ -21,21 +21,21 @@ A modular audio quality analysis system for detecting major audio artifacts in a
 
 ```mermaid
 flowchart TD
+    A[Audio File] --> B[Artifact Detection Engine]
 
-A[Audio File] --> B[Artifact Detection Engine]
+    B --> C[Clipping Analyzer]
+    B --> D[Dropout Analyzer]
+    B --> E[Clicks Analyzer]
+    B --> F[Noise Burst Analyzer]
 
-B --> C[Clipping Analyzer]
-B --> D[Dropout Analyzer]
-B --> E[Clicks Analyzer]
-B --> F[Noise Burst Analyzer]
+    C --> G[Scoring System]
+    D --> G
+    E --> G
+    F --> G
 
-C --> G[Scoring System]
-D --> G
-E --> G
-F --> G
-
-G --> H[JSON Report]
-G --> I[CSV Report]
+    G --> H[JSON Report]
+    G --> I[CSV Report]
+```
 
 ## Design Philosophy
 
