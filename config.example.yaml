@@ -1,0 +1,52 @@
+# Artifact Detection Engine Configuration
+
+# Analyzer-specific settings
+analyzers:
+  loudness:
+    segment_duration: 3.0        # Seconds per segment for loudness analysis
+    short_term_duration: 0.4     # Short-term loudness window (400ms)
+    variance_threshold_lu: 3.0   # LU threshold for flagging variance
+  
+  spectral:
+    sibilance_threshold_db: 6.0  # dB above mean to flag sibilance
+  
+  dynamics:
+    clipping_threshold: 0.99     # Sample level for clipping detection
+    min_consecutive_samples: 3   # Minimum consecutive clipped samples
+    min_dynamic_range_db: 6.0    # Below this = over-compressed
+    max_dynamic_range_db: 40.0   # Above this = may need compression
+  
+  noise:
+    dc_offset_threshold_percent: 1.0  # Percent of max amplitude
+    noise_floor_threshold_db: -40.0   # dBFS threshold
+    silence_percentile: 10            # Percentile for noise floor estimation
+
+# Scoring weights
+scoring:
+  base_score: 100.0
+  min_score: 0.0
+  
+  # Clipping
+  clipping_penalty: 20.0      # Points per clipping event
+  clipping_cap: 60.0          # Maximum clipping deduction
+  
+  # Loudness variance
+  lufs_variance_penalty: 15.0
+  lufs_variance_threshold: 3.0  # LU
+  
+  # Sibilance
+  sibilance_penalty: 10.0     # Points per spike
+  sibilance_cap: 30.0         # Maximum sibilance deduction
+  
+  # Noise floor
+  noise_floor_penalty: 15.0
+  noise_floor_threshold: -40.0  # dBFS
+  
+  # Dynamic range
+  dynamic_range_penalty: 10.0
+  dynamic_range_min: 6.0      # dB
+  dynamic_range_max: 40.0     # dB
+  
+  # DC offset
+  dc_offset_penalty: 5.0
+  dc_offset_threshold: 1.0    # Percent
